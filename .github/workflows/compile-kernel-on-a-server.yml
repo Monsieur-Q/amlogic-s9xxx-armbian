@@ -13,8 +13,8 @@ on:
       kernel_source:
         description: "Select the kernel source"
         required: false
-        default: "unifreq"
-        type: choice
+        default: "5.15.189"
+        type: string
         options:
           - unifreq
           - codesnas
