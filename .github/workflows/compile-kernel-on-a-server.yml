@@ -10,6 +10,7 @@ on:
   repository_dispatch:
   workflow_dispatch:
     inputs:
+    
       kernel_source:
         description: "Select the kernel source"
         required: false
@@ -18,24 +19,13 @@ on:
         options:
           - unifreq
           - codesnas
+
       kernel_version:
         description: "Select kernel version"
         required: false
-        default: "5.4.y"
-        type: choice
-        options:
-          - 5.4.y
-          - 5.10.y
-          - 5.15.y
-          - 6.1.y
-          - 6.6.y
-          - 6.12.y
-          - 5.4.y_5.10.y
-          - 5.15.y_6.1.y
-          - 6.6.y_6.12.y
-          - 5.4.y_5.10.y_5.15.y
-          - 6.1.y_6.6.y_6.12.y
-          - all
+        default: "5.15.189"
+        type: string
+          
       kernel_auto:
         description: "Auto use the latest kernel"
         required: false
@@ -156,8 +146,8 @@ jobs:
         if: ${{ steps.mapped.outputs.status }} == 'success' && !cancelled()
         with:
           build_target: kernel
-          kernel_source: ${{ inputs.kernel_source }}
-          kernel_version: ${{ inputs.kernel_version }}
+          kernel_source: ophub/kernel
+          kernel_version: 5.15.189
           kernel_auto: ${{ inputs.kernel_auto }}
           delete_source: ${{ inputs.delete_source }}
           kernel_package: ${{ inputs.kernel_package }}
