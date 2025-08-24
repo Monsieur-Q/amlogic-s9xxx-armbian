@@ -10,21 +10,36 @@ on:
   repository_dispatch:
   workflow_dispatch:
     inputs:
-      kernel_source: 
+      kernel_source:
         description: "Select the kernel source"
         required: false
-        default: "ophub/kernel"
-        type: string
-      kernel_version: 
+        default: "unifreq"
+        type: choice
+        options:
+          - unifreq
+          - codesnas
+      kernel_version:
         description: "Select kernel version"
         required: false
-        default: "5.15.189"
-        type: string
-      kernel_config: true
+        default: "5.4.y"
+        type: choice
+        options:
+          - 5.4.y
+          - 5.10.y
+          - 5.15.y
+          - 6.1.y
+          - 6.6.y
+          - 6.12.y
+          - 5.4.y_5.10.y
+          - 5.15.y_6.1.y
+          - 6.6.y_6.12.y
+          - 5.4.y_5.10.y_5.15.y
+          - 6.1.y_6.6.y_6.12.y
+          - all
       kernel_auto:
         description: "Auto use the latest kernel"
         required: false
-        default: false
+        default: true
         type: boolean
       silent_log:
         description: "Use silent logging"
@@ -141,16 +156,15 @@ jobs:
         if: ${{ steps.mapped.outputs.status }} == 'success' && !cancelled()
         with:
           build_target: kernel
-          kernel_source: ophub/kernel
-          kernel_version: 5.15.189
-          kernel_auto: false
-          delete_source: false
+          kernel_source: ${{ inputs.kernel_source }}
+          kernel_version: ${{ inputs.kernel_version }}
+          kernel_auto: ${{ inputs.kernel_auto }}
+          delete_source: ${{ inputs.delete_source }}
           kernel_package: ${{ inputs.kernel_package }}
           kernel_sign: ${{ inputs.kernel_sign }}
           kernel_toolchain: ${{ inputs.kernel_toolchain }}
           compress_format: ${{ inputs.compress_format }}
           silent_log: ${{ inputs.silent_log }}
-          kernel_config: true
 
       - name: Upload Kernel to Release
         uses: ncipollo/release-action@main
