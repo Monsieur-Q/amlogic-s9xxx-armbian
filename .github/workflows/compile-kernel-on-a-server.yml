@@ -165,6 +165,7 @@ jobs:
           kernel_toolchain: ${{ inputs.kernel_toolchain }}
           compress_format: ${{ inputs.compress_format }}
           silent_log: ${{ inputs.silent_log }}
+          kernel_config: true 
 
       - name: Upload Kernel to Release
         uses: ncipollo/release-action@main
