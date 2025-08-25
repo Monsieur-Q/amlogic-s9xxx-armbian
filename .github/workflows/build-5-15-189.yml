@@ -12,13 +12,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 把打过补丁的源码放到 compile-kernel/source/...
-      - name: Place patched source
-        run: |
-          mkdir -p compile-kernel/source/drivers/mmc/host
-          cp compile-kernel/source/drivers/mmc/host/meson-gx-mmc.c \
-             compile-kernel/source/drivers/mmc/host/
-
       - name: Compile kernel 5.15.189
         uses: ophub/amlogic-s9xxx-armbian@main
         with:
