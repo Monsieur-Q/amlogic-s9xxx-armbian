@@ -17,15 +17,17 @@ jobs:
         run: |
           mkdir -p compile-kernel/source/drivers/mmc/host
           cp compile-kernel/source/drivers/mmc/host/meson-gx-mmc.c \
-             compile-kernel/source/drivers/mmc/host/meson-gx-mmc.c
+             compile-kernel/source/drivers/mmc/host/
 
-      - name: Build 5.15.189 kernel (Amlogic)
+      - name: Compile kernel 5.15.189
         uses: ophub/amlogic-s9xxx-armbian@main
         with:
-          build_target: kernel          # 只编内核
+          build_target: kernel
           kernel_source: ophub/kernel
           kernel_version: 5.15.189
-          kernel_auto: false            # 不自动拉最新
-          kernel_config: true           # 用下面这份 .config
-          kernel_package: all           # headers + modules
+          kernel_auto: false
+          kernel_config: true
+          kernel_package: all
           kernel_sign: -s905l3b
+          armbian_path: ""
+          armbian_kernel: ""
