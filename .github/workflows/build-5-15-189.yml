@@ -1,0 +1,27 @@
+name: Build 5.15.189 kernel (meson-gx-mmc as module)
+
+on:
+  workflow_dispatch:   # 手动触发
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Build kernel 5.15.189
+        uses: ophub/amlogic-s9xxx-armbian@main
+        with:
+          build_target: kernel
+          kernel_source: ophub/kernel
+          kernel_version: 5.15.189
+          kernel_auto: false
+          kernel_config: true
+          kernel_patch: false
+          kernel_package: all
+          kernel_sign: -3v3
+          compress_format: xz
