@@ -1,27 +1,22 @@
-name: Build 5.15.189 kernel (meson-gx-mmc as module)
+name: Build 5.15.189 kernel for S905L3B
 
 on:
-  workflow_dispatch:   # 手动触发
-  push:
-    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Build kernel 5.15.189
+      - name: Build 5.15.189 kernel (Amlogic)
         uses: ophub/amlogic-s9xxx-armbian@main
         with:
-          build_target: kernel
+          build_target: kernel          # 只编内核
           kernel_source: ophub/kernel
           kernel_version: 5.15.189
           kernel_auto: false
           kernel_config: true
-          kernel_patch: false
-          kernel_package: all
-          kernel_sign: -3v3
-          compress_format: xz
+          kernel_package: all           # 只生成 headers + modules
+          kernel_sign: -s905l3b
