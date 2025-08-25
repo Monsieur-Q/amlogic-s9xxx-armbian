@@ -1,9 +1,16 @@
-name: Build 5.15.189 kernel (S905L3B - 3.3 V)
+name: Build 5.15.189 kernel for Amlogic S905L3B
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ main ]
+    inputs:
+      kernel_source:
+        description: "kernel upstream"
+        required: false
+        default: "ophub/kernel"
+      kernel_version:
+        description: "kernel tag"
+        required: false
+        default: "5.15.189"
 
 jobs:
   build:
@@ -12,15 +19,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Compile kernel 5.15.189
+      # 把补丁源码放在 compile-kernel/source/drivers/mmc/host/meson-gx-mmc.c
+      # 把 .config 放在 compile-kernel/config/kernel-5.15.189.config
+
+      - name: Build kernel
         uses: Monsieur-Q/amlogic-s9xxx-armbian@main
         with:
           build_target: kernel
-          kernel_source: ophub/kernel
-          kernel_version: 5.15.189
+          kernel_source: ${{ inputs.kernel_source }}
+          kernel_version: ${{ inputs.kernel_version }}
           kernel_auto: false
           kernel_config: true
           kernel_package: all
           kernel_sign: -s905l3b
-          armbian_path: ""
+          armbian_path: ""   # 不打包 Armbian 镜像
           armbian_kernel: ""
